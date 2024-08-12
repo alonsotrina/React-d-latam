@@ -4,8 +4,8 @@ const Header = (props) => {
   const {title, description} = props
   return (
     <header>
-      <h1 className="fs-1">{title}</h1>
-      <p className="fs-5">{description}</p>
+      <h1 className="text-3xl font-semibold uppercase">{title}</h1>
+      <p className="text-md">{description}</p>
     </header>
   )
 }

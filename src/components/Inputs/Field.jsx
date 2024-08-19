@@ -3,7 +3,7 @@ import { EyeIcon } from '@heroicons/react/24/outline';
 const Field = ({ label, name, type, value, onChange, handleBlur, validations }) => {
     return (
         <div>
-            <label className="block text-[12px] font-semibold leading-6 text-gray-500">
+            <label className={`block text-[12px] font-semibold leading-6 text-gray-500 capitalize after:content-['*'] after:ml-0.5 after:text-red-500 after:text-lg`}>
                 {label}
             </label>
             <div className="mt-1 relative">
@@ -20,7 +20,7 @@ const Field = ({ label, name, type, value, onChange, handleBlur, validations }) 
                     : null
                 }
             </div>
-            {validations && <div className="text-[12px] text-red-600 mt-1">{validations}</div>}
+            {validations && <div className="text-[12px] text-red-600 font-semibold mt-1">{validations}</div>}
         </div>
     )
 }

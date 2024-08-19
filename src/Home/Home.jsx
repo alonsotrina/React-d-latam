@@ -1,7 +1,63 @@
+import { useState } from "react";
+import { pizzas } from "../utils/pizza";
 import CardPizza from "../components/Card/CardPizza";
 import Header from "../components/Header/Header";
+import { Button } from "../components/ui/Buttton";
 
 const Home = () => {
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  // Función para agregar un nuevo elemento al Cart
+  // Recibiendo un parametro
+  const handleAdd = (item) => {
+    setCart(temporaryCart => {
+      // Método para  verificar si el ID existe en el state 'cart'
+      const exists = temporaryCart.some(cartItem => cartItem.id === item.id);
+
+      // Variable para almacenar cada vez que se actualiza el state 'cart'
+      let updatedCart;
+      // If para preguntar si el id existe en state 'cart'
+      if (exists) {
+        // Si existe, aumenta el count del producto
+        updatedCart = temporaryCart.map(cartItem =>
+          cartItem.id === item.id
+            ? { ...cartItem, count: cartItem.count + 1 }
+            : cartItem
+        );
+      } else {
+        // Si no se agregra un nuevo producto a cart
+        updatedCart = [...temporaryCart, { ...item, count: 1 }];
+      }
+  
+      // Función para calcula el total 
+      handleTotal(updatedCart);
+      // Se retorna la actualización de la copia del cart
+      return updatedCart;
+    });
+  };
+  
+  // Función para calcular el toral $ del state Cart
+  // Recibiendo un parametro
+  const handleTotal = (cart) => {
+    // Método para calcular el precio total
+    // recorriendo el parametro y almacenando el resulatado de price * count  
+    const totalPagar = cart.reduce(
+      (acc, item) => acc + item.price * item.count,
+      0
+    );
+
+    const totalItem = cart.reduce(
+      (acc, item) => acc + item.count,
+      0
+    );
+
+    console.log('totalItem',totalItem )
+
+    // Con el resulatdo de total, actulizamos el valor del state 'total
+    setTotal(totalPagar);
+  };
+
   return (
     <>
       <Header
@@ -9,61 +65,20 @@ const Home = () => {
         description="¡Tenemos las mejores pizzas que podrás encontras!"
       />
 
-      <div className="container mx-auto py-5">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-amber-400">
-            <CardPizza
-              name="Napolitana"
-              price={5950}
-              ingredients={["mozzarella", "tomates", "jamón", "orégano"]}
-              img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_cl.jpg?alt=media&token=6a9a33da-5c00-49d4-9080-784dcc87ec2c"
+      <div className="app-container">
+        <div className="grid grid-cols-2 gap-4">
+          {pizzas?.map((item) =>
+            <CardPizza 
+              key={item.id} 
+              item={item} 
+              onClick={handleAdd}
+              temporaryCart={cart} 
+              setTemporaryCart={setCart}
+              totalCart={total}
+              handleTotal={handleTotal}
             />
-          </div>
-          <div className="bg-amber-400">
-            <CardPizza
-              name="Española"
-              price={6950}
-              ingredients={["mozzarella","gorgonzola","parmesano","provolone",
-              ]}
-              img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fcheese-164872_640_com.jpg?alt=media&token=18b2b821-4d0d-43f2-a1c6-8c57bc388fab"
-            />
-          </div>
-          <div className="bg-amber-400">
-            <CardPizza
-              name="Pepperoni"
-              price={6950}
-              ingredients={["mozzarella", "pepperoni", "orégano"]}
-              img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_com.jpg?alt=media&token=e7cde87a-08d5-4040-ac54-90f6c31eb3e3"
-            />
-          </div>
+          )}
         </div>
-        {/* 
-      <div className="row justify-content-xxl-center">
-        <div className="col-4 col-xxl-2">
-        <CardPizza
-          name="Napolitana"
-          price={5950}
-          ingredients={["mozzarella", "tomates", "jamón", "orégano"]}
-          img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_cl.jpg?alt=media&token=6a9a33da-5c00-49d4-9080-784dcc87ec2c"
-        />
-        </div>
-        <div className="col-4 col-xxl-2">
-          <CardPizza
-            name="Española"
-            price={6950}
-            ingredients={["mozzarella", "gorgonzola", "parmesano", "provolone"]}
-            img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fcheese-164872_640_com.jpg?alt=media&token=18b2b821-4d0d-43f2-a1c6-8c57bc388fab"
-          />
-        </div>
-        <div className="col-4 col-xxl-2">
-          <CardPizza
-            name="Pepperoni"
-            price={6950}
-            ingredients={["mozzarella", "pepperoni", "orégano"]}
-            img="https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_com.jpg?alt=media&token=e7cde87a-08d5-4040-ac54-90f6c31eb3e3"
-          />
-        </div>
-      </div> */}
       </div>
     </>
   );

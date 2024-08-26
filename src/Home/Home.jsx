@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { pizzas } from "../utils/pizza";
+import { useFetch } from "../hooks/Index";
 import CardPizza from "../components/Card/CardPizza";
-import Header from "../components/Header/Header";
-import { Button } from "../components/ui/Buttton";
 
-const Home = () => {
+const Home = ({ setTotalItem, total, setTotal }) => {
+  const urlBase = "http://localhost:5100/api/pizzas"
+  const { data, loading, error } = useFetch(`${urlBase}`)
+
   const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
 
   // Función para agregar un nuevo elemento al Cart
   // Recibiendo un parametro
@@ -29,14 +29,14 @@ const Home = () => {
         // Si no se agregra un nuevo producto a cart
         updatedCart = [...temporaryCart, { ...item, count: 1 }];
       }
-  
+
       // Función para calcula el total 
       handleTotal(updatedCart);
       // Se retorna la actualización de la copia del cart
       return updatedCart;
     });
   };
-  
+
   // Función para calcular el toral $ del state Cart
   // Recibiendo un parametro
   const handleTotal = (cart) => {
@@ -47,40 +47,42 @@ const Home = () => {
       0
     );
 
-    const totalItem = cart.reduce(
+    const totalItemCart = cart.reduce(
       (acc, item) => acc + item.count,
       0
     );
 
-    console.log('totalItem',totalItem )
+    // Total de productos del cart
+    setTotalItem(totalItemCart)
 
     // Con el resulatdo de total, actulizamos el valor del state 'total
     setTotal(totalPagar);
   };
 
-  return (
-    <>
-      <Header
-        title="Pizzería Mamma Mia"
-        description="¡Tenemos las mejores pizzas que podrás encontras!"
-      />
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+  if (error) {
+    return <div className="app-container center">Error: {error}</div>;
+  }
 
-      <div className="app-container">
-        <div className="grid grid-cols-2 gap-4">
-          {pizzas?.map((item) =>
-            <CardPizza 
-              key={item.id} 
-              item={item} 
-              onClick={handleAdd}
-              temporaryCart={cart} 
-              setTemporaryCart={setCart}
-              totalCart={total}
-              handleTotal={handleTotal}
-            />
-          )}
-        </div>
+  return (
+    <div className="app-container">
+      <h2 className="text-lg font-bold text-dark-900 mb-3">🍕 Promociones</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data?.map((item) =>
+          <CardPizza
+            key={item.id}
+            item={item}
+            onClick={handleAdd}
+            temporaryCart={cart}
+            setTemporaryCart={setCart}
+            totalCart={total}
+            handleTotal={handleTotal}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

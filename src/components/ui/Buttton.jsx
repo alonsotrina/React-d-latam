@@ -20,10 +20,6 @@ const buttonVariants = cva(
 
 
 
-
-
-
-
         dark: "bg-dark-700 text-white font-semibold shadow hover:bg-dark-700/85",
         secondary: "bg-secondary text-white shadow-sm hover:bg-secondary/80",
         success: "bg-success text-white shadow-sm hover:bg-success/80",
@@ -32,9 +28,12 @@ const buttonVariants = cva(
 
 
         outlinePrimary: "border-[2px] border-primary bg-transparent text-primary shadow-sm hover:bg-accent hover:text-accent-foreground",
-        outline_dark: "border-[1.5px] border-dark-700 bg-transparent text-dark shadow-sm hover:bg-accent hover:text-accent-foreground hover:bg-dark-700 hover:text-white",
+        outline_dark: "border-[1.5px] border-dark-700 bg-transparent text-dark-900 shadow-sm hover:bg-accent hover:text-accent-foreground hover:bg-dark-700 hover:text-white",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+
+        light_outline: "border-[1.5px] border-light bg-transparent text-light shadow-sm hover:bg-accent hover:text-accent-foreground hover:bg-white/90 hover:text-dark-900",
+
       },
       size: {
         default: "h-9 px-4 py-2",

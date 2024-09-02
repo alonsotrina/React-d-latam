@@ -24,7 +24,7 @@
       @apply container mx-auto py-5 sm:px-8 2xl:px-0
     }
     .footer{
-      @apply border-t border-dark-100 mt-8 py-6
+      @apply border-t border-dark-100 py-6
     }
   }
 
@@ -36,6 +36,11 @@
   }
 
  
+  @layer utilities {
+    .text-shadow-custom {
+      text-shadow: 2px 2px 80px rgba(0, 0, 0, 0.525);
+    }
+  }
 
 /* @layer components {
     .btn-primary {

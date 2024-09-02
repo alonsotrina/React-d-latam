@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useFetch } from "../hooks/Index";
 import CardPizza from "../components/Card/CardPizza";
+import Header from "../components/Header/Header";
+import PizzaDetail from "./PizzaDetail";
 
 const Home = ({ setTotalItem, total, setTotal }) => {
   const urlBase = "http://localhost:5100/api/pizzas"
@@ -67,22 +69,34 @@ const Home = ({ setTotalItem, total, setTotal }) => {
   }
 
   return (
-    <div className="app-container">
-      <h2 className="text-lg font-bold text-dark-900 mb-3">🍕 Promociones</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {data?.map((item) =>
-          <CardPizza
-            key={item.id}
-            item={item}
-            onClick={handleAdd}
-            temporaryCart={cart}
-            setTemporaryCart={setCart}
-            totalCart={total}
-            handleTotal={handleTotal}
-          />
-        )}
+    <>
+      <Header
+        title="Pizzería Mamma Mia"
+        description="¡Tenemos las mejores pizzas que podrás encontras!"
+      />
+
+      <div className="app-container">
+        <h2 className="text-lg font-bold text-dark-900 mb-3">🔥 Destacado de la semana</h2>
+        <PizzaDetail />
       </div>
-    </div>
+
+      <div className="app-container">
+        <h2 className="text-lg font-bold text-dark-900 mb-3">🍕 Promociones</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {data?.map((item) =>
+            <CardPizza
+              key={item.id}
+              item={item}
+              onClick={handleAdd}
+              temporaryCart={cart}
+              setTemporaryCart={setCart}
+              totalCart={total}
+              handleTotal={handleTotal}
+            />
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import { Button } from "../ui/Buttton";
+import { Link } from "react-router-dom";
 import {
     Sheet,
     SheetTrigger,
@@ -127,7 +128,6 @@ const Cart = ({
                             </div>
                         </div>
                     ))}
-
                 </div>
 
                 {/* Total a pagar */}
@@ -135,12 +135,16 @@ const Cart = ({
                     {/* Total a pagar */}
                     <h2 className="text-xl">Total: {formatter.format(totalCart)}</h2>
                     {/* btn  pagar */}
-                    <Button
-                        variant="default"
-                        size="sm"
-                    >
-                        Pagar
-                    </Button>
+                    <Link to="cart">
+
+
+                        <Button
+                            variant="default"
+                            size="sm"
+                        >
+                            Ir al carrito
+                        </Button>
+                    </Link>
                 </div>
 
             </SheetContent>

@@ -1,18 +1,14 @@
-import Cart from "../Cart/Cart";
-import { Button } from "../ui/Buttton";
+import { Button, ToastAction } from '../index';
 import { PlusIcon } from "@radix-ui/react-icons";
 import { formatter } from "../../utils/formatters";
+import { useToast } from "../../hooks/Index";
+import { Link } from "react-router-dom";
 
-const CardPizza = ({
-    item,
-    onClick,
-    temporaryCart,
-    setTemporaryCart,
-    totalCart,
-    handleTotal,
-}) => {
+
+const CardPizza = ({ item, onClick }) => {
     // Desestructuración del prop item
     const { name, desc, img, ingredients, price } = item;
+    const { toast } = useToast()
 
     return (
         <div className="grid grid-cols-3 gap-4 bg-white rounded-lg place-items-stretch shadow-lg hover-card-default">
@@ -50,23 +46,26 @@ const CardPizza = ({
                         Ver
                     </Button>
 
-                    {/* btn para agregar un elemento al carrito */}
-                    <Cart
-                        triggerButton={
-                            <Button
-                                variant="dark"
-                                size="icon"
-                                onClick={() => onClick(item)}
-                                className="px-2"
-                            >
-                                <PlusIcon />
-                            </Button>
-                        }
-                        totalCart={totalCart}
-                        handleTotal={handleTotal}
-                        temporaryCart={temporaryCart}
-                        setTemporaryCart={setTemporaryCart}
-                    />
+                    {/* btn para agregar al carrito */}
+                    <Button
+                        variant="dark"
+                        size="icon"
+                        onClick={() => {
+                            toast({
+                                variant: "success",
+                                title: `Pizza ${name}`,
+                                description: `Agregada exitosamente.`,
+                                action: (
+                                    <Link to="/cart" className="text-blue-500 hover:underline">
+                                        <ToastAction altText="Try again">Ver bolsa</ToastAction>
+                                    </Link>
+                                ),
+                            }),
+                            onClick(item)
+                        }}
+                    >
+                        <PlusIcon />
+                    </Button>
                 </div>
             </div>
         </div>

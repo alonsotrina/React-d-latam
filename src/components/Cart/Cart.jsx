@@ -1,27 +1,25 @@
-import { Button } from "../ui/Buttton";
 import { Link } from "react-router-dom";
 import {
+    Button,
     Sheet,
     SheetTrigger,
     SheetContent,
     SheetTitle,
     SheetDescription,
-} from "../ui/Sheet";
+} from "../ui";
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons'
 import { formatter } from '../../utils/formatters';
+import { useCart } from '../../context/CartContext';
 
-const Cart = ({
-    temporaryCart,
-    setTemporaryCart,
-    triggerButton,
-    totalCart,
-    handleTotal,
-}) => {
+const Cart = ({ triggerButton, handleTotal}) => {
+
+
+    const { total, cart, setCart} = useCart()
 
     const handleAumentar = (data) => {
-        setTemporaryCart((prevTemporaryCart) => {
+        setCart((prevcart) => {
             // Actualiza el count del ítem específico
-            const updatedCart = prevTemporaryCart.map((item) =>
+            const updatedCart = prevcart.map((item) =>
                 item.id === data ? { ...item, count: item.count + 1 } : item
             );
 
@@ -33,9 +31,9 @@ const Cart = ({
     };
 
     const handleDisminuir = (data) => {
-        setTemporaryCart((temporaryCart) => {
+        setCart((cart) => {
             // Actualiza el count del ítem específico
-            const updatedCart = temporaryCart.map((item) => {
+            const updatedCart = cart.map((item) => {
                 if (item.id === data) {
                     return { ...item, count: item.count - 1 };
                 }
@@ -52,8 +50,8 @@ const Cart = ({
     };
 
     const eliminar = (id) => {
-        const updatedCart = temporaryCart.filter((item) => item.id !== id);
-        setTemporaryCart(updatedCart);
+        const updatedCart = cart.filter((item) => item.id !== id);
+        setCart(updatedCart);
         handleTotal(updatedCart);
     };
 
@@ -69,9 +67,9 @@ const Cart = ({
                 {/* Contenido del carrito */}
                 <div className="h-[80vh] lg:h-[70vh] xl:h-[80vh] overflow-scroll">
                     {/* map para listar los productos agregardo al cart */}
-                    {temporaryCart.map((item, index) => (
+                    {cart.map((item, index) => (
                         <div
-                            className={`grid grid-cols-5 gap-2 py-5 border-b border-dark-300 ${index === temporaryCart.length - 1 ? 'border-none' : ''}`}
+                            className={`grid grid-cols-5 gap-2 py-5 border-b border-dark-300 ${index === cart.length - 1 ? 'border-none' : ''}`}
                             key={item.id}
                         >
                             {/* IMG del producto */}
@@ -133,7 +131,7 @@ const Cart = ({
                 {/* Total a pagar */}
                 <div className="grid grid-cols-2 gap-2 py-4 border-t border-dark-100">
                     {/* Total a pagar */}
-                    <h2 className="text-xl">Total: {formatter.format(totalCart)}</h2>
+                    <h2 className="text-xl">Total: {formatter.format(total)}</h2>
                     {/* btn  pagar */}
                     <Link to="cart">
 
@@ -146,7 +144,6 @@ const Cart = ({
                         </Button>
                     </Link>
                 </div>
-
             </SheetContent>
         </Sheet>
     );

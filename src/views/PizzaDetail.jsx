@@ -1,7 +1,6 @@
 import useFetch from '../hooks/useFetch'
 import { formatter } from "../utils/formatters";
-import { Badge } from '../components/ui/Badge';
-import { Button } from '../components/ui/Buttton';
+import { Button, Badge } from '../components';
 import { PlusIcon } from "@radix-ui/react-icons";
 
 const PizzaDetail = () => {

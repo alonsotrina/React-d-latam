@@ -48,6 +48,6 @@ const Badge = React.forwardRef(function Badge(
     );
   });
   Badge.displayName = "Badge";
-  
 
-export { Badge, badgeVariants }
+export default Badge;
+export { badgeVariants };

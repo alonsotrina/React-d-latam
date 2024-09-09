@@ -1,4 +1,4 @@
-import { Button } from '../components/ui/Buttton';
+import { Button } from '../components';
 import background from '../assets/img/header/image.png'
 
 const Profile = () => {

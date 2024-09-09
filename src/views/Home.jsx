@@ -1,14 +1,10 @@
-import { useState } from "react";
-import { useFetch } from "../hooks/Index";
+import { useCart } from "../context/CartContext"
 import CardPizza from "../components/Card/CardPizza";
 import Header from "../components/Header/Header";
 import PizzaDetail from "./PizzaDetail";
 
-const Home = ({ setTotalItem, total, setTotal }) => {
-  const urlBase = "http://localhost:5100/api/pizzas"
-  const { data, loading, error } = useFetch(`${urlBase}`)
-
-  const [cart, setCart] = useState([]);
+const Home = () => {
+  const { setCart, data, loading, error, setTotal, setTotalItem} = useCart()
 
   // Función para agregar un nuevo elemento al Cart
   // Recibiendo un parametro
@@ -88,9 +84,6 @@ const Home = ({ setTotalItem, total, setTotal }) => {
               key={item.id}
               item={item}
               onClick={handleAdd}
-              temporaryCart={cart}
-              setTemporaryCart={setCart}
-              totalCart={total}
               handleTotal={handleTotal}
             />
           )}

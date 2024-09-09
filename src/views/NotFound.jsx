@@ -1,6 +1,6 @@
 import img from '../assets/img/404/404.3.png'
 import background from '../assets/img/header/image.png'
-import { Button } from '../components/ui/Buttton';
+import { Button } from '../components';
 import { Link } from "react-router-dom";
 
 const NotFound = () => {

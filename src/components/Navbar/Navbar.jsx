@@ -1,13 +1,15 @@
+import { useCart } from "../../context/CartContext"
 import { Link } from "react-router-dom";
-import { Badge } from "../ui/Badge"
-import { ShoppingCart } from 'lucide-react';
+import { Badge } from '../index';
+import { ShoppingCart } from 'lucide-react'
+import { formatter } from '../../utils/formatters';
 
-
-const NavbarComponets = ({ totalItem }) => {
+const NavbarComponets = () => {
+  const { total, totalItem } = useCart()
   return (
     <nav className="flex items-center justify-between flex-wrap p-6 absolute top-0 left-0 right-0 z-10 bg-dark-900/20">
-      <Link to="/">
-        <h2 className="font-semibold text-xl tracking-tight text-white mr-6">Pizzería Mamma Mia</h2>
+      <Link to="/" className="font-semibold text-xl tracking-tight text-white mr-6">
+        Pizzería Mamma Mia
       </Link>
 
       <div className="block lg:hidden">
@@ -35,11 +37,12 @@ const NavbarComponets = ({ totalItem }) => {
           <Link to="register" className="block mt-4 lg:inline-block lg:mt-0 text-md text-white hover:text-white font-semibold mr-3">Register</Link>
           <Link to="profile" className="block mt-4 lg:inline-block lg:mt-0 text-md text-white hover:text-white font-semibold mr-3">Profile</Link>
         </div>
-        <div>
 
+        <div>
           <Link to="cart" className="inline-flex text-sm px-2 py-2 leading-none rounded text-white bg-warning hover:border-transparent hover:text-dark-700 hover:bg-white mt-4 lg:mt-0" >
             <ShoppingCart size={16} color="#000" />
             {totalItem > 0 ? <Badge variant="danger" size="default" className="mx-2">{totalItem}</Badge> : null}
+            {formatter.format(total)}
           </Link>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Field from "../components/Inputs/Field";
-import Header from "../components/Header/Header";
+import { Button, Field } from '../components';
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const initialForm = {
   email: "",
@@ -8,6 +9,9 @@ const initialForm = {
 };
 
 const LoginPage = () => {
+  const {auth, setAuth} = useAuth()
+  const navigation = useNavigate()
+
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({
     error: "errorDefault",
@@ -20,6 +24,7 @@ const LoginPage = () => {
       ...form,
       [name]: value,
     });
+    
   };
 
   const handleBlur = (e) => {
@@ -32,10 +37,18 @@ const LoginPage = () => {
     console.log("enviado data");
     setErrors(validationForm(form));
 
-    console.log("errors - submit", errors);
-
     if (Object.keys(errors).length === 0) {
       setForm(initialForm);
+
+      let auxAuth = {
+        email: form.email,
+        password: form.password,
+        token: true,
+      }
+
+      setAuth(auxAuth)
+      navigation('/')
+
     } else {
       return;
     }
@@ -63,13 +76,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <Header
-        title="Inicia sesión"
-        description="Accede a tu cuenta para continuar."
-      />
-
-      <div className="container mx-auto -mt-20 relative z-10 min-h-[60vh]">
+    <>
+      <div className="container mx-auto min-h-[60vh]">
         <form
           onSubmit={handleSubmit}
           className="bg-white mx-auto max-w-xl px-14 py-7 rounded-xl"
@@ -95,14 +103,20 @@ const LoginPage = () => {
               validations={errors.password}
             />
           </div>
-          <div className="mt-10">
-            <button type="submit" className="btn-primary">
+          <div className="mt-5">
+
+            <Button
+              variant="dark"
+              size="lg"
+              type="submit"
+              className="w-full"
+            >
               Ingresar
-            </button>
+            </Button>
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 

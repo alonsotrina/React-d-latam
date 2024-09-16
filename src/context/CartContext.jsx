@@ -14,7 +14,6 @@ const CartProvider = ({ children }) => {
     // useFetch para consimir la API de pizzas
     const { data, loading, error } = useFetch(`${urlBase}`)
 
-
     // Función para calcular el toral $ del state Cart
     // Recibiendo un parametro
     const handleTotal = (cart) => {

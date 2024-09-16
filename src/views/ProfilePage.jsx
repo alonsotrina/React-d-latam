@@ -1,7 +1,7 @@
 import { Button } from '../components';
 import background from '../assets/img/header/image.png'
 
-const Profile = () => {
+const ProfilePage = () => {
     return (
         <div
             className="flex justify-center items-center"
@@ -20,4 +20,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default ProfilePage

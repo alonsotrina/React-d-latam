@@ -1,7 +1,7 @@
-export { default as Home } from './Home';
+export { default as HomePage } from './HomePage';
 export { default as PizzaDetail } from './PizzaDetail';
 export { default as LoginPage } from './LoginPage';
 export { default as RegisterPage } from './RegisterPage';
-export { default as Profile } from './Profile';
-export { default as Cart } from './Cart'; // Esta línea es importante
+export { default as ProfilePage } from './ProfilePage';
+export { default as CartPage } from './CartPage'; // Esta línea es importante
 export { default as NotFound } from './NotFound';

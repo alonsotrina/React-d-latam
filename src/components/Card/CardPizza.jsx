@@ -2,13 +2,18 @@ import { Button, ToastAction } from '../index';
 import { PlusIcon } from "@radix-ui/react-icons";
 import { formatter } from "../../utils/formatters";
 import { useToast } from "../../hooks/Index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const CardPizza = ({ item, onClick }) => {
+    const navigate = useNavigate()
     // Desestructuración del prop item
-    const { name, desc, img, ingredients, price } = item;
+    const { name, desc, img, ingredients, price, id } = item;
     const { toast } = useToast()
+
+    // const handleViewDetail = (id) => {
+    //     navigate(`/personajes/${id}`)
+    // }
 
     return (
         <div className="grid grid-cols-3 gap-4 bg-white rounded-lg place-items-stretch shadow-lg hover-card-default">
@@ -42,7 +47,12 @@ const CardPizza = ({ item, onClick }) => {
                 {/* acciones de la card */}
                 <div className="flex justify-end space-x-3  mt-3">
                     {/* btn para ver el detalle */}
-                    <Button variant="outline_dark" size="sm" className="py-4">
+                    <Button
+                        variant="outline_dark" 
+                        size="sm" 
+                        className="py-4"
+                        onClick={() => navigate(`/pizza-detail/${id}`) }
+                    >
                         Ver
                     </Button>
 

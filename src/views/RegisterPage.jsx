@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Field from "../components/Inputs/Field";
-import Header from "../components/Header/Header";
+import { Button, Field } from '../components';
 
 const initialForm = {
   email: "",
@@ -13,8 +12,6 @@ const RegisterPage = () => {
   const [errors, setErrors] = useState({
     error: "errorDefault",
   });
-
-  console.log("errors", errors);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,13 +71,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <Header
-        title="Registrate"
-        description="Crea tu cuenta para ingresar al sistema."
-      />
-
-      <div className="container mx-auto -mt-20 relative z-10 min-h-[60vh]">
+    <>
+      <div className="container mx-auto min-h-[60vh]">
         <form
           onSubmit={handleSubmit}
           className="bg-white mx-auto max-w-xl px-14 py-7 rounded-xl"
@@ -116,14 +108,18 @@ const RegisterPage = () => {
               validations={errors.repeat_password}
             />
           </div>
-          <div className="mt-10">
-            <button type="submit" className="btn-primary">
-              Registrarse
-            </button>
-          </div>
+
+          <Button
+              variant="dark"
+              size="lg"
+              type="submit"
+              className="w-full mt-10"
+            >
+              Ingresar
+            </Button>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,9 +1,7 @@
 import { useCart } from "../context/CartContext"
 import CardPizza from "../components/Card/CardPizza";
-import Header from "../components/Header/Header";
-import PizzaDetail from "./PizzaDetail";
 
-const Home = () => {
+const HomePage = () => {
   const { setCart, data, loading, error, setTotal, setTotalItem} = useCart()
 
   // Función para agregar un nuevo elemento al Cart
@@ -65,17 +63,6 @@ const Home = () => {
   }
 
   return (
-    <>
-      <Header
-        title="Pizzería Mamma Mia"
-        description="¡Tenemos las mejores pizzas que podrás encontras!"
-      />
-
-      <div className="app-container">
-        <h2 className="text-lg font-bold text-dark-900 mb-3">🔥 Destacado de la semana</h2>
-        <PizzaDetail />
-      </div>
-
       <div className="app-container">
         <h2 className="text-lg font-bold text-dark-900 mb-3">🍕 Promociones</h2>
         <div className="grid grid-cols-2 gap-4">
@@ -89,8 +76,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </>
   );
 };
 
-export default Home;
+export default HomePage;

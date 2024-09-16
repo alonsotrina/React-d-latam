@@ -1,13 +1,12 @@
-import Header from '../components/Header/Header'
 import { formatter } from '../utils/formatters';
-// import { pizzaCart } from '../utils/pizza';
 import { Button } from '../components';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
-const Cart = () => {
-
+const CartPage = () => {
   const { total, cart, setCart, handleTotal } = useCart()
+  const { auth } = useAuth()
 
   const handleAumentar = (data) => {
     setCart((prevcart) => {
@@ -50,10 +49,6 @@ const Cart = () => {
 
   return (
     <div>
-      <Header
-        title="Carrito de comprar"
-      />
-
       <div className="app-container grid grid-cols-6 gap-4">
         <div className="col-start-2 col-span-3">
           <div className="h-[80vh] lg:h-[70vh] xl:h-[80vh] overflow-scroll">
@@ -125,17 +120,19 @@ const Cart = () => {
         <div className="col-span-2">
           {/* Total a pagar */}
           <h2 className="text-lg font-bold text-dark-900 mb-3">Total de tu compra: {formatter.format(total)}</h2>
+
+
           <Button
             variant="default"
             size="sm"
+            className={auth.token ? "":"cursor-not-allowed opacity-50"}
           >
             Pagar
           </Button>
-
         </div>
       </div>
     </div>
   )
 }
 
-export default Cart
+export default CartPage

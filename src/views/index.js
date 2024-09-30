@@ -3,5 +3,5 @@ export { default as PizzaDetail } from './PizzaDetail';
 export { default as LoginPage } from './LoginPage';
 export { default as RegisterPage } from './RegisterPage';
 export { default as ProfilePage } from './ProfilePage';
-export { default as CartPage } from './CartPage'; // Esta línea es importante
+export { default as CartPage } from './CartPage';
 export { default as NotFound } from './NotFound';

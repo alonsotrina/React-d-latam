@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Button, Field } from '../components';
+import { validationRegister } from '../utils/validations';
+import { ExclamationTriangleIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
+import { useAuth } from "../context/AuthContext";
+import {
+  Button,
+  Field,
+  Alert,
+  AlertDescription,
+  AlertTitle
+} from '../components';
 
 const initialForm = {
   email: "",
@@ -8,10 +17,9 @@ const initialForm = {
 };
 
 const RegisterPage = () => {
+  const { auth, validarRegister } = useAuth()
   const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState({
-    error: "errorDefault",
-  });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,58 +31,57 @@ const RegisterPage = () => {
   };
 
   const handleBlur = (e) => {
-    handleChange(e);
-    setErrors(validationForm(form));
+    const { name, value } = e.target;
+
+    // Crea un objeto temporal con el valor actualizado
+    const tempForm = {
+      ...form,
+      [name]: value,
+    };
+
+    // Solo actualiza el error si el campo tiene un valor
+    if (value.trim()) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: validationRegister(tempForm)[name],
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit4 = async (e) => {
     e.preventDefault();
-    console.log("enviado data");
-    setErrors(validationForm(form));
+    const newErrors = validationRegister(form);
+    setErrors(newErrors);
 
-    console.log("errors - submit", errors);
+    if (Object.keys(newErrors).length === 0) {
+      const result = await validarRegister(form.email, form.password);
 
-    if (Object.keys(errors).length === 0) {
-      setForm(initialForm);
-    } else {
-      return;
+      if (result) {
+        setForm(initialForm)
+      }
     }
-  };
-
-  const validationForm = (form) => {
-    const { email, password, repeat_password } = form;
-
-    let errors = {};
-    let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
-
-    if (!email.trim()) {
-      errors.email = "campo obligatorio";
-    } else if (!regexEmail.test(email.trim())) {
-      errors.email = "campo 'Email' es incorrecto";
-    }
-
-    if (!password.trim()) {
-      errors.password = "campo obligatorio";
-    } else if (password.length < 6) {
-      errors.password = "Contraseña debe tener min. 7 caracteres";
-    }
-
-    if (!repeat_password.trim()) {
-      errors.repeat_password = "campo obligatorio";
-    } else if (repeat_password.length < 6) {
-      errors.repeat_password = "Contraseña debe tener min. 7 caracteres";
-    } else if (repeat_password != password) {
-      errors.repeat_password = "Las contraseña no coinciden";
-    }
-
-    return errors;
   };
 
   return (
     <>
       <div className="container mx-auto min-h-[60vh]">
+
+        <div className="mx-auto max-w-xl py-7">
+          {
+            auth.showMsg &&
+
+            <Alert variant={auth.msg === "Usuario registrado con exito." ? "success" : "danger"} size="sm">
+              {auth.msg === "Usuario registrado con exito." ?
+                <CheckBadgeIcon className="w-6 h-6" /> :<ExclamationTriangleIcon className="w-6 h-6" />
+              }
+              <AlertTitle className="ml-5">{auth.msg === "Usuario registrado con exito." ? "¡Listo!" : "¡Ha ocurrido un error!"}</AlertTitle>
+              <AlertDescription className="ml-5">{auth.msg}</AlertDescription>
+            </Alert>
+          }
+        </div>
+
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit4}
           className="bg-white mx-auto max-w-xl px-14 py-7 rounded-xl"
         >
           <div className="grid grid-cols-1 gap-y-4">
@@ -85,7 +92,7 @@ const RegisterPage = () => {
               value={form.email}
               onChange={handleChange}
               handleBlur={handleBlur}
-              validations={errors.email}
+              validations={errors ? errors.email : null}
             />
 
             <Field
@@ -95,7 +102,7 @@ const RegisterPage = () => {
               value={form.password}
               onChange={handleChange}
               handleBlur={handleBlur}
-              validations={errors.password}
+              validations={errors ? errors.password : null}
             />
 
             <Field
@@ -105,18 +112,18 @@ const RegisterPage = () => {
               value={form.repeat_password}
               onChange={handleChange}
               handleBlur={handleBlur}
-              validations={errors.repeat_password}
+              validations={errors ? errors.repeat_password : null}
             />
           </div>
 
           <Button
-              variant="dark"
-              size="lg"
-              type="submit"
-              className="w-full mt-10"
-            >
-              Ingresar
-            </Button>
+            variant="dark"
+            size="lg"
+            type="submit"
+            className="w-full mt-10"
+          >
+            Ingresar
+          </Button>
         </form>
       </div>
     </>

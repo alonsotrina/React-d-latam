@@ -9,7 +9,7 @@ const initialForm = {
 };
 
 const LoginPage = () => {
-  const {auth, setAuth} = useAuth()
+  const { setAuth } = useAuth()
   const navigation = useNavigate()
 
   const [form, setForm] = useState(initialForm);

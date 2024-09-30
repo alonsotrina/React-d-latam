@@ -7,7 +7,7 @@ import { InternalLayout } from "../layout/InternalLayout";
 
 const MainRoutes = () => {
     const { auth } = useAuth()
-    console.log('auth', auth.token)
+
     return (
         <Routes>
 
@@ -18,9 +18,9 @@ const MainRoutes = () => {
 
             {/* Layout para las rutas internas (login, register, profile, pizza detail) */}
             <Route element={<InternalLayout />}>
-                <Route path="login" element={auth.token ? <Navigate to="/" /> : <LoginPage />} />
+                {/* <Route path="login" element={auth.token ? <Navigate to="/" /> : <LoginPage />} /> */}
                 <Route path="register" element={auth.token ? <Navigate to="/" /> : <RegisterPage />} />
-                <Route path='cart' element={ <CartPage />} />
+                <Route path='cart' element={<CartPage />} />
                 <Route path='profile' element={auth.token ? <ProfilePage /> : <Navigate to="/" />} />
                 <Route path="pizza-detail/:id" element={<PizzaDetail />} />
             </Route>

@@ -3,17 +3,21 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { formatter } from "../../utils/formatters";
 import { useToast } from "../../hooks/Index";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from '../../context/CartContext';
 
 
-const CardPizza = ({ item, onClick }) => {
+const CardPizza = ({ item }) => {
     const navigate = useNavigate()
-    // Desestructuración del prop item
-    const { name, desc, img, ingredients, price, id } = item;
     const { toast } = useToast()
+    const { dispatch } = useCart()
+    const { name, desc, img, ingredients, price, id } = item;
 
-    // const handleViewDetail = (id) => {
-    //     navigate(`/personajes/${id}`)
-    // }
+    const handleAddToCart = (item) => {
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: { ...item, count: 1 }
+        });
+    };
 
     return (
         <div className="grid grid-cols-3 gap-4 bg-white rounded-lg place-items-stretch shadow-lg hover-card-default">
@@ -71,7 +75,7 @@ const CardPizza = ({ item, onClick }) => {
                                     </Link>
                                 ),
                             }),
-                            onClick(item)
+                            handleAddToCart(item);
                         }}
                     >
                         <PlusIcon />

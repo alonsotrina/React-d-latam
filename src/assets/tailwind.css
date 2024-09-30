@@ -30,7 +30,7 @@
       @apply block mt-4 lg:inline-block lg:mt-0 text-base text-white hover:text-white font-semibold mr-3
     }
     .nav-active {
-      @apply  text-white/50
+      @apply  text-white/90
     }
   }
 

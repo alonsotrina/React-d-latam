@@ -1,43 +1,57 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 import { useFetch } from "../hooks/Index";
+import { cartReducer } from "../reducers/cartReducer";
 
 export const CartContext = createContext()
-const urlBase = "http://localhost:5100/api/pizzas"
+const urlBase = "http://localhost:5100/api"
 
+// STATE INICIAL
+const initialState = {
+    items: [],   // Carrito de productos
+    total: 0,    // Valor total del carrito
+    totalItem: 0,// Cantidad total de productos
+    msg: ''
+};
+ 
 const CartProvider = ({ children }) => {
     // state para almacenar el valor total del carrito
-    const [total, setTotal] = useState(0);
-    // state para almacenar la cantidad de los productos del carrito
-    const [totalItem, setTotalItem] = useState(0);
-    // state para almacenar data al carrito
-    const [cart, setCart] = useState([]);
+    const [cart, dispatch] = useReducer(cartReducer, initialState);
     // useFetch para consimir la API de pizzas
-    const { data, loading, error } = useFetch(`${urlBase}`)
+    const { data, loading, error } = useFetch(`${urlBase}/pizzas`)
 
-    // Función para calcular el toral $ del state Cart
-    // Recibiendo un parametro
-    const handleTotal = (cart) => {
-        // Método para calcular el precio total
-        // recorriendo el parametro y almacenando el resulatado de price * count  
-        const totalPagar = cart.reduce(
-            (acc, item) => acc + item.price * item.count,
-            0
-        );
-        // Método para calcular el total de productos
-        // recorriendo el parametro y almacenando el resulatado de item * count  
-        const totalItemCart = cart.reduce(
-            (acc, item) => acc + item.count,
-            0
-        );
-        // Total de productos del cart
-        setTotalItem(totalItemCart)
-        // Valor total del producto
-        setTotal(totalPagar);
+    const validarCheck = async (token, cart) => {
+        try {
+            const response = await fetch(`${urlBase}/checkouts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(cart),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                cart({
+                    msg: errorData.error,
+                })
+                return
+            }
+
+            const data = await response.json();
+            console.log('data-cart-context', data)
+            return data;
+        }
+        catch (error) {
+            cart({
+                msg: `Error: ${error.message || "Problema de conexión"}`
+            })
+        }
     };
 
 
     return (
-        <CartContext.Provider value={{ total, setTotal, totalItem, setTotalItem, cart, setCart, data, loading, error, handleTotal }}>
+        <CartContext.Provider value={{ data, loading, error, cart, dispatch, validarCheck}}>
             {children}
         </CartContext.Provider>
     )

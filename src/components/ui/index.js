@@ -35,7 +35,23 @@ export {
   DropdownMenuPortal,
   DropdownMenuSub,
   DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
+  // DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
 } from './Dropdown'
-
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from './Dialog'
+export {
+  Alert, 
+  AlertTitle, 
+  AlertDescription
+} from './Alert'
